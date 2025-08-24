@@ -61,7 +61,8 @@ $hover-bg: #ffbfcb;
 
   // Start-day modifiers
   @each $day, $index in $days {
-    .calendar--start-day-#{$day} .calendar__day:first-child {
+    .calendar--start-day-#{$day}
+    .calendar__day:first-child {
       margin-left: calc(#{$index * ($day-size + 2 * $border + $gap)});
     }
   }
