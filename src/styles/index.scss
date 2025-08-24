@@ -1,3 +1,68 @@
 body {
   margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// variables
+$days: (sun 0, mon 1, tue 2, wed 3, thu 4, fri 5, sat 6);
+$day-size: 100px;
+$day-color: #eee;
+$border: 1px;
+$font: Arial, sans-serif;
+$font-size: 30px;
+$gap: 1px;
+$columns: 7;
+$calendar-padding: 10px;
+$day-bg: #eee;
+$hover-bg: #ffbfcb;
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+  padding: $calendar-padding;
+  width: calc(#{$columns * ($day-size + 2 * $border) + ($columns - 1) * $gap});
+  &__day {
+    position: relative;
+    width: $day-size;
+    height: $day-size;
+    border: $border solid black;
+    background-color: $day-bg;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $hover-bg;
+      transform: translateY(-20px);
+    }
+  }
+}
+
+// Add numbers with ::before
+@for $i from 1 through 31 {
+  .calendar__day:nth-child(#{$i})::before {
+    content: '#{$i}';
+    font-family: $font;
+    font-size: $font-size;
+  }
+}
+
+@for $length from 28 through 30 {
+  .calendar--month-length-#{$length}
+    .calendar__day:nth-child(n + #{$length + 1}) {
+    display: none;
+  }
+
+  // Start-day modifiers
+  @each $day, $index in $days {
+    .calendar--start-day-#{$day} .calendar__day:first-child {
+      margin-left: calc(#{$index * ($day-size + 2 * $border + $gap)});
+    }
+  }
 }
