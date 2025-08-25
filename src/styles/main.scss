@@ -24,7 +24,10 @@ $hover-bg: #ffbfcb;
   flex-wrap: wrap;
   gap: $gap;
   padding: $calendar-padding;
-  width: calc(#{$columns * ($day-size + 2 * $border) + ($columns - 1) * $gap});
+  width: calc(
+    #{$columns * ($day-size + 2 * $border)} + #{($columns - 1) * $gap} + #{2 * $calendar-padding}
+  );
+
   &__day {
     position: relative;
     width: $day-size;
@@ -35,6 +38,15 @@ $hover-bg: #ffbfcb;
     justify-content: center;
     align-items: center;
     transition: all 0.5s;
+
+    &::before {
+      content: attr(data-day);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
 
     &:hover {
       cursor: pointer;
@@ -58,12 +70,11 @@ $hover-bg: #ffbfcb;
     .calendar__day:nth-child(n + #{$length + 1}) {
     display: none;
   }
+}
 
-  // Start-day modifiers
-  @each $day, $index in $days {
-    .calendar--start-day-#{$day}
-    .calendar__day:first-child {
-      margin-left: calc(#{$index * ($day-size + 2 * $border + $gap)});
-    }
+// Start-day modifiers
+@each $day, $index in $days {
+  .calendar--start-day-#{$day} .calendar__day:first-child {
+    margin-left: calc(#{$index * ($day-size + 2 * $border + $gap)});
   }
 }
