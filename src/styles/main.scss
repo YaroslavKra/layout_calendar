@@ -37,7 +37,9 @@ $hover-bg: #ffbfcb;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.5s;
+    transition:
+      background-color 0.5s,
+      transform 0.5s;
 
     &::before {
       content: attr(data-day);
@@ -65,10 +67,15 @@ $hover-bg: #ffbfcb;
   }
 }
 
-@for $length from 28 through 30 {
-  .calendar--month-length-#{$length}
-    .calendar__day:nth-child(n + #{$length + 1}) {
-    display: none;
+@for $len from 28 through 31 {
+  .calendar--month-length-#{$len} {
+    @if $len < 31 {
+      @for $d from ($len + 1) through 31 {
+        .calendar__day:nth-child(#{$d}) {
+          display: none;
+        }
+      }
+    }
   }
 }
 
